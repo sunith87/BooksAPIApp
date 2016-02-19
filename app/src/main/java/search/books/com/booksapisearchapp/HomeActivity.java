@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -71,9 +72,17 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(v);
                 fetchQuery();
+                mSearchView.clearFocus();
+
             }
         };
+    }
+
+    private void hideKeyboard(View v) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void fetchQuery() {
