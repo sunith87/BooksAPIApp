@@ -37,9 +37,11 @@ public class DetailsFragment extends Fragment {
     public static final String SALEABILITY = "Saleability: ";
     public static final String IS_EBOOK = "Is Ebook? ";
     public static final String COUNTRY = "Country: ";
+    public static final String SUBTITLE = "Subtitle: ";
+
+
     ImageView mImageView;
     private SearchItem mSearchItem;
-    private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsingToolbar;
     private TextView mVolumeInfo, mSaleInfo;
 
@@ -48,7 +50,6 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.details_fragment, container, false);
         mImageView = (ImageView) inflatedView.findViewById(R.id.details_imageView);
-        mToolbar = (Toolbar) inflatedView.findViewById(R.id.DetailsToolbar);
         mCollapsingToolbar = (CollapsingToolbarLayout) inflatedView.findViewById(R.id.collapse_toolbar);
 
         mVolumeInfo = (TextView) inflatedView.findViewById(R.id.volumeInfoDetails);
@@ -74,14 +75,14 @@ public class DetailsFragment extends Fragment {
             mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.appbar_expanded);
             mCollapsingToolbar.setCollapsedTitleTextAppearance(R.style.appbar_collapsed);
 
-            renderMetaData(mSearchItem);
+            renderMetaData();
 
         }
 
 
     }
 
-    private void renderMetaData(SearchItem mSearchItem) {
+    private void renderMetaData() {
 
 
         SearchItem.VolumeInfo volumeInfo = mSearchItem.volumeInfo;
@@ -123,7 +124,8 @@ public class DetailsFragment extends Fragment {
             try {
 
 
-                setData(volumeInfoBuilder, TITLE,  volumeInfo.title, "<br><br>");
+                setData(volumeInfoBuilder, TITLE,  volumeInfo.title, "<br>");
+                setData(volumeInfoBuilder, SUBTITLE,  volumeInfo.title, "<br><br>");
 
                 setData(volumeInfoBuilder, DESCRIPTION,  volumeInfo.description, "<br><br>");
 
