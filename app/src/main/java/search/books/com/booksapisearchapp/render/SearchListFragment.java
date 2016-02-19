@@ -5,15 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import search.books.com.booksapisearchapp.R;
-import search.books.com.booksapisearchapp.download.SearchData;
-import search.books.com.booksapisearchapp.render.RecycleBookAdapter;
+import search.books.com.booksapisearchapp.model.SearchData;
 
 /**
  * Created by snair on 17/02/2016.
@@ -40,7 +38,7 @@ public class SearchListFragment extends Fragment {
         SearchData searchData = (SearchData)getArguments().getSerializable(SEARCH_DATA);
         mLayoutManager = new GridLayoutManager(getActivity(),2);
         mRecyclerListView.setLayoutManager(mLayoutManager);
-        mRecyclerListView.setAdapter(new RecycleBookAdapter(searchData.getItems()));
+        mRecyclerListView.setAdapter(new SearchListRecycleAdapter(searchData.getItems()));
     }
 
     @Override

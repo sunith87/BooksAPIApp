@@ -1,7 +1,7 @@
 package search.books.com.booksapisearchapp.download;
 
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 
@@ -15,22 +15,21 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import search.books.com.booksapisearchapp.model.SearchData;
+
 /**
  * Created by snair on 17/02/2016.
  */
 public class BookDataDownloader extends AsyncTask<String,Void,String>{
 
-    public final static String GOOGLE_API_URL = "https://www.googleapis.com/books/v1/volumes?q=search+%s&filter=full&maxResults=%s";
-    public static final int QUERY_POSITION = 0;
-    public static final int NUMBER_OF_BOOKS = 1;
+
+    public static final int URL = 0;
 
     public BookDownloadListener mBookDownloadListener;
 
-
-
     public interface BookDownloadListener{
         public void onSuccess(SearchData searchData);
-        public void onFailure(BookDownloaderError error);
+        public void onFailure(BookDownloadError error);
     }
 
 
@@ -38,60 +37,46 @@ public class BookDataDownloader extends AsyncTask<String,Void,String>{
         mBookDownloadListener = listener;
     }
 
-    private String download(String query, String numberOfResults)  {
+    private String download(String endpointUrl)  {
         String result = null;
 
-        String format = String.format(GOOGLE_API_URL, query.replaceAll(" ","+"),numberOfResults);
         try {
-            URL url = new URL(format);
+            URL url = new URL(endpointUrl);
             HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
 
 
-            if (connection.getResponseCode()== HttpURLConnection.HTTP_OK){
-                InputStream in = connection.getInputStream();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String read;
-                StringBuilder builder = new StringBuilder();
-
-                while ((read = reader.readLine()) !=null){
-                    builder.append(read);
-                }
-
-                reader.close();
-
-
-                 result = builder.toString();
-                Log.d("Test", result);
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                result = convertStreamToString(connection);
             }
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            result = BookDownloaderError.MALFORMEDURL;
+            result = BookDownloadError.MALFORMEDURL;
         } catch (IOException e) {
             e.printStackTrace();
-            result = BookDownloaderError.IOEXCEPTION;
+            result = BookDownloadError.IOEXCEPTION;
         }
 
         return result;
     }
 
+
+
     @Override
     protected String doInBackground(String... params) {
-        return download(params[QUERY_POSITION],params[NUMBER_OF_BOOKS]);
+        return download(params[URL]);
     }
 
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        if (BookDownloaderError.getAllErrors().contains(result)){
-            mBookDownloadListener.onFailure(new BookDownloaderError(result));
+        if (BookDownloadError.getAllErrors().contains(result)){
+            mBookDownloadListener.onFailure(new BookDownloadError(result));
         }else{
             SearchData searchData = getSearchData(result);
             if (searchData.getItems().size() == 0){
-                mBookDownloadListener.onFailure(new BookDownloaderError(BookError.PARSE_ERROR));
+                mBookDownloadListener.onFailure(new BookDownloadError(BookError.PARSE_ERROR));
             }else{
                 mBookDownloadListener.onSuccess(searchData);
             }
@@ -105,5 +90,25 @@ public class BookDataDownloader extends AsyncTask<String,Void,String>{
         SearchData searchData = gson.fromJson(result, SearchData.class);
 
         return searchData;
+    }
+
+    @NonNull
+    private String convertStreamToString(HttpsURLConnection connection) throws IOException {
+        String result;InputStream in = connection.getInputStream();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+        String read;
+        StringBuilder builder = new StringBuilder();
+
+        while ((read = reader.readLine()) != null) {
+            builder.append(read);
+        }
+
+        reader.close();
+
+
+        result = builder.toString();
+        return result;
     }
 }

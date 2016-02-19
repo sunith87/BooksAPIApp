@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import search.books.com.booksapisearchapp.Constants;
 import search.books.com.booksapisearchapp.R;
-import search.books.com.booksapisearchapp.download.SearchItem;
+import search.books.com.booksapisearchapp.model.SearchItem;
 
 /**
  * Created by snair on 18/02/2016.

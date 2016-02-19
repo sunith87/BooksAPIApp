@@ -1,4 +1,4 @@
-package search.books.com.booksapisearchapp.download;
+package search.books.com.booksapisearchapp.model;
 
 import java.io.Serializable;
 import java.util.List;

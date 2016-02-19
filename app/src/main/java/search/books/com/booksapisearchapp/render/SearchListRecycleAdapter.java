@@ -8,28 +8,28 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import search.books.com.booksapisearchapp.R;
-import search.books.com.booksapisearchapp.download.SearchItem;
+import search.books.com.booksapisearchapp.model.SearchItem;
 
 /**
  * Created by snair on 17/02/2016.
  */
-public class RecycleBookAdapter extends RecyclerView.Adapter<BookListViewHolder> {
+public class SearchListRecycleAdapter extends RecyclerView.Adapter<SearchListViewHolder> {
 
     private final List<SearchItem> mAllItems;
 
-    RecycleBookAdapter(List<SearchItem> items){
+    SearchListRecycleAdapter(List<SearchItem> items){
         mAllItems = items;
     }
 
 
     @Override
-    public BookListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View individualBookView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_view, parent, false);
-        return new BookListViewHolder(individualBookView,parent.getContext());
+        return new SearchListViewHolder(individualBookView,parent.getContext());
     }
 
     @Override
-    public void onBindViewHolder(BookListViewHolder holder, int position) {
+    public void onBindViewHolder(SearchListViewHolder holder, int position) {
             holder.bindViews(mAllItems.get(position));
     }
 

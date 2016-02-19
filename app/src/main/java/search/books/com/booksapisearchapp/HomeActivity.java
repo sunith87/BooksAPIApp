@@ -6,25 +6,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.transition.Explode;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SearchView;
 
 import search.books.com.booksapisearchapp.download.BookDataDownloader;
-import search.books.com.booksapisearchapp.download.BookDownloaderError;
-import search.books.com.booksapisearchapp.download.SearchData;
-import search.books.com.booksapisearchapp.download.SearchItem;
+import search.books.com.booksapisearchapp.download.BookDownloadError;
+import search.books.com.booksapisearchapp.model.SearchData;
+import search.books.com.booksapisearchapp.model.SearchItem;
 import search.books.com.booksapisearchapp.render.DetailsFragment;
 import search.books.com.booksapisearchapp.render.SearchListFragment;
 
@@ -33,6 +27,9 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
 
     private static final String SEARCH_RESULT_FRAGMENT_TAG = "SEARCH_RESULT_FRAGMENT_TAG";
     private static final String SEARCH_DETAILS_FRAGMENT_TAG = "SEARCH_DETAILS_FRAGMENT_TAG";
+
+    private final static String GOOGLE_API_ENDPOINT = "https://www.googleapis.com/books/v1/volumes?q=search+%s&filter=full&maxResults=%d";
+    private static final int NUMBER_OF_RESULTS_MAX = 40;
 
 
     SearchView mSearchView;
@@ -95,8 +92,12 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
 
     private void fetchBookData(String query) {
         showProgressBar(query);
+
+        String spacesReplacedQuery = query.replaceAll(" ", "+");
+        String url = String.format(GOOGLE_API_ENDPOINT, spacesReplacedQuery, NUMBER_OF_RESULTS_MAX);
+
         BookDataDownloader downloader = new BookDataDownloader(this);
-        downloader.execute(query, "40");
+        downloader.execute(url);
     }
 
     private void showProgressBar(String query) {
@@ -128,7 +129,7 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
     }
 
     @Override
-    public void onFailure(BookDownloaderError error) {
+    public void onFailure(BookDownloadError error) {
         cleanupProgressBar();
         showSnackBar("Error while searching: "+error.getError());
     }
