@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BooksAPISearchApp</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="details_volume_info">Volume Info</string>
+    <string name="details_sale_info">Sale Info</string>
 </resources>

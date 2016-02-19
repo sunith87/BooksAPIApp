@@ -26,7 +26,6 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="50dp"
                 android:scaleType="centerCrop"
-                android:transitionName="bookImageProfile"
                 app:layout_collapseMode="pin" />
 
             <android.support.v7.widget.Toolbar
@@ -66,7 +65,7 @@
                         android:id="@+id/volumeInfoTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="VolumeInfo"
+                        android:text="@string/details_volume_info"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_margin="20dp"/>
@@ -103,7 +102,7 @@
                         android:id="@+id/saleInfoTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SaleInfo"
+                        android:text="@string/details_sale_info"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_margin="20dp"/>
