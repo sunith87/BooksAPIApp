@@ -74,8 +74,13 @@ public class BookDataDownloader extends AsyncTask<String,Void,String>{
         if (BookDownloadError.getAllErrors().contains(result)){
             mBookDownloadListener.onFailure(new BookDownloadError(result));
         }else{
-            SearchData searchData = getSearchData(result);
-            if (searchData.getItems().size() == 0){
+            SearchData searchData = null;
+            try {
+                searchData = getSearchData(result);
+            } catch (Exception e) {
+                mBookDownloadListener.onFailure(new BookDownloadError(BookError.PARSE_ERROR));
+            }
+            if (searchData== null || searchData.getItems().size() == 0){
                 mBookDownloadListener.onFailure(new BookDownloadError(BookError.PARSE_ERROR));
             }else{
                 mBookDownloadListener.onSuccess(searchData);
@@ -84,7 +89,7 @@ public class BookDataDownloader extends AsyncTask<String,Void,String>{
 
     }
 
-    private SearchData getSearchData(String result) {
+    private SearchData getSearchData(String result) throws Exception{
 
         Gson gson = new Gson();
         SearchData searchData = gson.fromJson(result, SearchData.class);
