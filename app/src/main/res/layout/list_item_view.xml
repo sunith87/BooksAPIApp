@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
-    <ImageView
-        android:id="@+id/bookImageView"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:src="@drawable/placeholder"/>
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvWrapper"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_toRightOf="@id/bookImageView"
-        android:layout_marginLeft="10dp">
+        android:layout_height="match_parent"
+        android:background="@color/cardview_light_background">
 
-        <TextView
-            android:id="@+id/bookTitleView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/bookImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:transitionName="bookImageProfile"/>
+
+            <TextView
+                android:id="@+id/bookTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="@id/bookImageView"
+                android:layout_below="@id/bookImageView"
+                android:paddingTop="5dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:transitionName="bookTitleProfile"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
