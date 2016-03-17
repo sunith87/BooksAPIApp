@@ -1,4 +1,4 @@
-package search.books.com.booksapisearchapp.download;
+package search.books.com.booksapisearchapp.download.book;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;

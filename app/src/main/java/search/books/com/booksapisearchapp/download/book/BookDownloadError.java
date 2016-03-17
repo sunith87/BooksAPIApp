@@ -1,4 +1,4 @@
-package search.books.com.booksapisearchapp.download;
+package search.books.com.booksapisearchapp.download.book;
 
 /**
  * Created by snair on 17/02/2016.

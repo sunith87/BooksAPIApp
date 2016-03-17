@@ -16,8 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import search.books.com.booksapisearchapp.download.BookDataDownloader;
-import search.books.com.booksapisearchapp.download.BookDownloadError;
+import search.books.com.booksapisearchapp.download.book.BookDataDownloader;
+import search.books.com.booksapisearchapp.download.book.BookDownloadError;
 import search.books.com.booksapisearchapp.model.SearchData;
 import search.books.com.booksapisearchapp.model.SearchItem;
 import search.books.com.booksapisearchapp.render.DetailsFragment;
