@@ -1,12 +1,16 @@
 package search.books.com.booksapisearchapp;
 
+import android.Manifest;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -50,8 +54,28 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
         mSearchButton = (Button)findViewById(R.id.btnBookSearch);
         mSearchButton.setOnClickListener(getSearchOnClickListener());
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    requestPermissions( new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE},312);
+            }
+        }
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 312){
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+               showSnackBar("This app requires storage permissions", "CLOSE", new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       HomeActivity.this.finish();
+                   }
+               });
+            }
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -94,9 +118,19 @@ public class HomeActivity extends AppCompatActivity implements BookDataDownloade
         }
     }
 
-    private void showSnackBar( String message) {
+    private void showSnackBar(String message){
+        showSnackBar(message,null,null);
+    }
+
+    private void showSnackBar(String message, String actionText, View.OnClickListener listener) {
         View parentLayout = findViewById(R.id.rootView);
-        Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG).show();
+        Snackbar make = Snackbar.make(parentLayout, message, Snackbar.LENGTH_INDEFINITE);
+
+        if (actionText != null){
+            make.setAction(actionText,listener);
+        }
+
+        make.show();
     }
 
     private void fetchBookData(String query) {

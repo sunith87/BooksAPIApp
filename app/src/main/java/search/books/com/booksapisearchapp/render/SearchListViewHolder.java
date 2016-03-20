@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import search.books.com.booksapisearchapp.Constants;
 import search.books.com.booksapisearchapp.R;
+import search.books.com.booksapisearchapp.download.image.ImageDownloader;
 import search.books.com.booksapisearchapp.model.SearchItem;
 
 
@@ -48,11 +49,13 @@ public class SearchListViewHolder extends RecyclerView.ViewHolder implements Vie
     }
 
     private void downloadThumbnail(String url) {
-        Picasso.with(mContext).
-                load(url).
-                fit().
-                placeholder(R.drawable.placeholder).
-                into(mBookThumbanailView);
+
+      ImageDownloader.getSingleton(mContext).putBitmap(url,mBookThumbanailView);
+//        Picasso.with(mContext).
+//                load(url).
+//                fit().
+//                placeholder(R.drawable.placeholder).
+//                into(mBookThumbanailView);
     }
 
     @Override
